@@ -1,7 +1,10 @@
 package nl.umcg.fhir.model.datatype;
 
+import javax.xml.bind.annotation.XmlAccessType;
+import javax.xml.bind.annotation.XmlAccessorType;
 import javax.xml.bind.annotation.XmlElement;
 
+@XmlAccessorType(XmlAccessType.FIELD)
 public class Period {
 	@XmlElement
 	private FhirDateTime start;
