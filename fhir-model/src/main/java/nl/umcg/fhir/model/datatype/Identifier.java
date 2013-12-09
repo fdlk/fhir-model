@@ -8,8 +8,10 @@ import org.eclipse.persistence.oxm.annotations.XmlPath;
 
 
 public class Identifier implements Datatype {
+	public enum IdentifierUse{usual, official, temp}
+	
 	@XmlPath("use/@value")
-	private String use;
+	private IdentifierUse use;
 	@XmlPath("label/@value")
 	private String label;
 	@XmlPath("system/@value")
@@ -35,7 +37,7 @@ public class Identifier implements Datatype {
 		return this;
 	}
 
-	public Identifier setUse(String use) {
+	public Identifier setUse(IdentifierUse use) {
 		this.use = use;
 		return this;
 	}
@@ -45,7 +47,7 @@ public class Identifier implements Datatype {
 		return this;
 	}
 
-	public String getUse() {
+	public IdentifierUse getUse() {
 		return use;
 	}
 

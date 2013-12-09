@@ -156,4 +156,10 @@ public class Patient extends Resource {
 	public String getResourceType() {
 		return "Patient";
 	}
+
+	public Address addAddress() {
+		Address newAddress = new Address();
+		this.address.add(newAddress);
+		return newAddress;
+	}
 }
