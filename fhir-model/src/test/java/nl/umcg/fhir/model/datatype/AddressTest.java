@@ -1,8 +1,10 @@
 package nl.umcg.fhir.model.datatype;
 
-import static org.junit.Assert.*;
+import static org.junit.Assert.assertEquals;
 
+import java.io.StringBufferInputStream;
 import java.io.StringWriter;
+import java.util.Collections;
 
 import javax.xml.bind.JAXBContext;
 import javax.xml.bind.JAXBElement;
@@ -27,15 +29,31 @@ public class AddressTest {
 				new JAXBElement<Address>(new QName("http://hl7.org/fhir",
 						"address"), Address.class, address), sw);
 
-		assertEquals(
-				"<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
+		assertEquals("<?xml version=\"1.0\" encoding=\"UTF-8\"?>\r\n"
 				+ "<address xmlns=\"http://hl7.org/fhir\">"
-				+ "<use>home</use>"
-				+ "<line>Hanzeplein 1</line>"
-				+ "<city>Groningen</city>"
-				+ "<zip>9700 AB</zip>"
-				+ "</address>",
-				sw.toString());
+				+ "<use value=\"home\"/>" + "<line value=\"Hanzeplein 1\"/>"
+				+ "<city value=\"Groningen\"/>" + "<zip value=\"9700 AB\"/>"
+				+ "</address>", sw.toString());
+	}
+
+	@Test
+	public void testFromXml() throws JAXBException {
+		String xml = "<?xml version=\"1.0\" encoding=\"UTF-8\" standalone=\"yes\"?>"
+				+ "<address xmlns=\"http://hl7.org/fhir\">"
+				+ "<use value='home' />"
+				+ "<line value='Hanzeplein 1'/>"
+				+ "<city value='Groningen' />"
+				+ "<zip value='9700 AB' />"
+				+ "</address>";
+
+		JAXBContext context = JAXBContext.newInstance(Address.class);
+		Address address = (Address) context.createUnmarshaller().unmarshal(
+				new StringBufferInputStream(xml));
+		assertEquals(AddressUse.home, address.getUse());
+		assertEquals(Collections.singletonList("Hanzeplein 1"),
+				address.getLine());
+		assertEquals("Groningen", address.getCity());
+		assertEquals("9700 AB", address.getZip());
 	}
 
 }
